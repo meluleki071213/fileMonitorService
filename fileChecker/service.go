@@ -158,10 +158,14 @@ func (s *service) setFileStatus(name, dirPath, fileContains string, bdFiles []st
 
 	convertedTime := convertTime("currentTime ", currentTime)
 
+	var backdated bool
 	for _, file := range fileList {
-
-		backdated := isFileBackDated(file, bdFiles)
-
+		if name == "Botswana" || name == "Namibia" {
+			backdated = false
+		}else {
+			backdated = isFileBackDated(file, bdFiles)
+		}
+		//backdated := isFileBackDated(file, bdFiles)
 		expectedTime := s.expectedFileArivalTime(fileContains)
 		contains := strings.Contains(file, fileContains)
 
