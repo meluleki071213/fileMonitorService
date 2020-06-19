@@ -1,8 +1,8 @@
 package fileChecker
 
 import (
-	"fmt"
 	"fileMonitorService/jsonFileInteraction"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -136,7 +136,9 @@ func (s *service) setValues(name, mountpath string, bdFiles, files []string, sto
 		//Store These latest notification stats in the Mongo DB
 		s.storeLocationStateRecent(s.locationName, s.fileStatus)
 
-		time.Sleep(1 * time.Minute)
+		log.Print("About To Sleep For 3 Hours At: ", time.Now())
+		time.Sleep(180 * time.Minute)
+		log.Println("After Sleeping For 3 Hours At: ", time.Now())
 	}
 }
 
@@ -162,7 +164,7 @@ func (s *service) setFileStatus(name, dirPath, fileContains string, bdFiles []st
 	for _, file := range fileList {
 		if name == "Botswana" || name == "Namibia" {
 			backdated = false
-		}else {
+		} else {
 			backdated = isFileBackDated(file, bdFiles)
 		}
 		//backdated := isFileBackDated(file, bdFiles)
@@ -216,7 +218,7 @@ func (s *service) convertFileNamesToHumanReadableNames() map[string]string {
 
 	for k, v := range humanReadableFileStatusResponse {
 		for _, fileName := range genericFileNameArray {
-			if strings.Contains(k, fileName){
+			if strings.Contains(k, fileName) {
 				generigNameMap[fileName] = v
 			}
 		}
@@ -297,7 +299,10 @@ func (s *service) getListOfFilesInPath(path string) ([]string, error) {
 
 	defer dir.Close()
 
+	start := time.Now()
 	list, _ := dir.Readdirnames(0)
+	duration := time.Since(start)
+	log.Printf("TIME: took %s\n", duration)
 
 	return list, nil
 }
