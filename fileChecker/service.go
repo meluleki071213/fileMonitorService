@@ -162,6 +162,7 @@ func (s *service) setFileStatus(name, dirPath, fileContains string, bdFiles []st
 
 	var backdated bool
 	for _, file := range fileList {
+		file = strings.ToUpper(file)
 		if name == "Botswana" || name == "Namibia" {
 			backdated = false
 		} else {
